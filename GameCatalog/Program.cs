@@ -8,15 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
 
 var app = builder.Build();
 
-var cbuilder = new ConfigurationBuilder()
-                       .SetBasePath(Directory.GetCurrentDirectory())
-                       .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
-IConfiguration _configuration = cbuilder.Build();
-
-Sql.connectionString = _configuration.GetConnectionString("home");
+Sql.connectionString = app.Configuration.GetConnectionString("school");
+      
 
 
 // Configure the HTTP request pipeline.
